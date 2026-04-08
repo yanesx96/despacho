@@ -28,25 +28,25 @@
       "id": 4,
       "fr": "5B",
       "code": "12760",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 5,
       "fr": "6B",
       "code": "12776",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 6,
       "fr": "7B",
       "code": "12778",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 7,
       "fr": "8B",
       "code": "12701",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 8,
@@ -64,37 +64,37 @@
       "id": 10,
       "fr": "11B",
       "code": "80171",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 11,
       "fr": "12B",
       "code": "12728",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 12,
       "fr": "13B",
       "code": "12734",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 13,
       "fr": "14B",
       "code": "86346",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 14,
       "fr": "15B",
       "code": "60091",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 15,
       "fr": "16B",
       "code": "64105",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 16,
@@ -1765,6 +1765,6 @@
       "status": "dispatched"
     }
   ],
-  "updatedAt": "2026-04-08T23:10:21.645Z",
+  "updatedAt": "2026-04-08T23:10:33.615Z",
   "total": 294
 }
