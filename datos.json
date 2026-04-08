@@ -154,19 +154,19 @@
       "id": 25,
       "fr": "26B",
       "code": "80148",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 26,
       "fr": "27B",
       "code": "12714",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 27,
       "fr": "28B",
       "code": "12708",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 28,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:45:14.382Z",
+  "updatedAt": "2026-04-08T22:46:16.783Z",
   "total": 294
 }
