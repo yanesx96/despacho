@@ -28,7 +28,7 @@
       "id": 4,
       "fr": "5B",
       "code": "12760",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 5,
@@ -64,7 +64,7 @@
       "id": 10,
       "fr": "11B",
       "code": "80171",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 11,
@@ -76,7 +76,7 @@
       "id": 12,
       "fr": "13B",
       "code": "12734",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 13,
@@ -88,7 +88,7 @@
       "id": 14,
       "fr": "15B",
       "code": "60091",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 15,
@@ -106,7 +106,7 @@
       "id": 17,
       "fr": "18B",
       "code": "64098",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 18,
@@ -118,7 +118,7 @@
       "id": 19,
       "fr": "20B",
       "code": "14845",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 20,
@@ -136,7 +136,7 @@
       "id": 22,
       "fr": "23B",
       "code": "13681",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 23,
@@ -190,7 +190,7 @@
       "id": 31,
       "fr": "32B",
       "code": "64089",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 32,
@@ -220,7 +220,7 @@
       "id": 36,
       "fr": "37B",
       "code": "64082",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 37,
@@ -238,7 +238,7 @@
       "id": 39,
       "fr": "40B",
       "code": "78044",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 40,
@@ -250,7 +250,7 @@
       "id": 41,
       "fr": "42B",
       "code": "80141",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 42,
@@ -346,7 +346,7 @@
       "id": 57,
       "fr": "58B",
       "code": "86401",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 58,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:50:40.911Z",
+  "updatedAt": "2026-04-08T22:50:56.108Z",
   "total": 294
 }
