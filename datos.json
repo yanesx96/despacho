@@ -286,7 +286,7 @@
       "id": 47,
       "fr": "48B",
       "code": "80120",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 48,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:49:16.839Z",
+  "updatedAt": "2026-04-08T22:49:19.306Z",
   "total": 294
 }
