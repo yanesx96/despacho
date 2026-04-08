@@ -202,7 +202,7 @@
       "id": 33,
       "fr": "34B",
       "code": "78092",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 34,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:49:31.969Z",
+  "updatedAt": "2026-04-08T22:49:34.434Z",
   "total": 294
 }
