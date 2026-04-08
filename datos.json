@@ -244,7 +244,7 @@
       "id": 40,
       "fr": "41B",
       "code": "60223",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 41,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:46:57.147Z",
+  "updatedAt": "2026-04-08T22:47:00.004Z",
   "total": 294
 }
