@@ -70,7 +70,7 @@
       "id": 11,
       "fr": "12B",
       "code": "12728",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 12,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:47:42.378Z",
+  "updatedAt": "2026-04-08T22:47:44.432Z",
   "total": 294
 }
