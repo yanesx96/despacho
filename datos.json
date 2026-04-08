@@ -322,7 +322,7 @@
       "id": 53,
       "fr": "54B",
       "code": "66111",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 54,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:48:24.816Z",
+  "updatedAt": "2026-04-08T22:48:27.477Z",
   "total": 294
 }
