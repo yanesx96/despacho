@@ -268,6 +268,25 @@
 
 <script>
 // ==========================================
+// CORE: MANEJO FORZADO DE ZONA UTC-6
+// ==========================================
+function getUTC6Info() {
+  const d = new Date();
+  // Obtener timestamp actual en UTC
+  const utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+  // Ajustar a UTC-6 (El Salvador: -6 horas)
+  const tz = new Date(utc - (3600000 * 6));
+  const pad = n => String(n).padStart(2, '0');
+  
+  const iso = `${tz.getFullYear()}-${pad(tz.getMonth()+1)}-${pad(tz.getDate())}T${pad(tz.getHours())}:${pad(tz.getMinutes())}:${pad(tz.getSeconds())}-06:00`;
+  const time = `${pad(tz.getHours())}:${pad(tz.getMinutes())}`;
+  const file = `despacho_fr_${pad(tz.getDate())}_${pad(tz.getMonth()+1)}_${tz.getFullYear()}.json`;
+  
+  return { iso, time, file };
+}
+
+
+// ==========================================
 // CONFIGURACIÓN GITHUB
 // ==========================================
 const LS_CFG = 'despachoboard_ghcfg';
@@ -295,7 +314,10 @@ async function ghWrite(data) {
   const sha = data._sha;
   const copy = {...data}; delete copy._sha;
   const content = btoa(unescape(encodeURIComponent(JSON.stringify(copy, null, 2))));
-  const body = { message: `DespachoBoard update ${new Date().toISOString()}`, content, ...(sha ? { sha } : {}) };
+  
+  const tInfo = getUTC6Info();
+  const body = { message: `DespachoBoard update ${tInfo.iso}`, content, ...(sha ? { sha } : {}) };
+  
   const r = await fetch(ghBase(), { method: 'PUT', headers: { Authorization:`token ${cfg.token}`, Accept:'application/vnd.github.v3+json', 'Content-Type':'application/json' }, body: JSON.stringify(body) });
   if (!r.ok) { const e = await r.json(); throw new Error(e.message || `GitHub ${r.status}`); }
   const res = await r.json(); return res.content.sha;
@@ -321,7 +343,7 @@ async function pullFromGitHub() {
     }
     allItems = data.items;
     currentSha = data._sha;
-    setSyncState('ok', `Sync OK · ${new Date().toLocaleTimeString('es-SV',{hour:'2-digit',minute:'2-digit'})}`);
+    setSyncState('ok', `Sync OK · ${getUTC6Info().time}`);
     return true;
   } catch(e) {
     setSyncState('err', 'Error al leer'); return false;
@@ -337,14 +359,15 @@ function schedulePush() {
 
 async function doPush() {
   try {
+    const tInfo = getUTC6Info();
     const payload = {
       items: allItems,
-      updatedAt: new Date().toISOString(),
+      updatedAt: tInfo.iso,
       total: allItems.length,
       _sha: currentSha
     };
     currentSha = await ghWrite(payload);
-    setSyncState('ok', `Guardado · ${new Date().toLocaleTimeString('es-SV',{hour:'2-digit',minute:'2-digit'})}`);
+    setSyncState('ok', `Guardado · ${tInfo.time}`);
   } catch(e) {
     setSyncState('err', `Error al guardar`);
   }
@@ -388,7 +411,6 @@ function parseFile(file){
       
       if(!frKey || !codeKey) return showToast('Faltan columnas FR y CODIGO');
       
-      // Preservar estado y timestamp anterior si existe
       const prev = {}; allItems.forEach(i => prev[i.code] = i);
       
       allItems = data.filter(r => r[frKey]!=='' && r[codeKey]!=='').map((r, i) => {
@@ -399,7 +421,7 @@ function parseFile(file){
           fr: String(r[frKey]).trim(), 
           code, 
           status: p.status || 'ready',
-          dispatchedAt: p.dispatchedAt // Mantiene la fecha si ya la tenía
+          dispatchedAt: p.dispatchedAt 
         };
       });
       showBoard(true); render(); schedulePush(); showToast(`✓ Excel cargado`);
@@ -449,12 +471,15 @@ function renderCol(bodyId, items, status) {
     if(status === 'assigned') btns = `<button class="card-btn" onclick="moveItem(${item.id},'ready')">←</button><button class="card-btn" onclick="moveItem(${item.id},'dispatched')">→</button>`;
     if(status === 'dispatched') btns = `<button class="card-btn" onclick="moveItem(${item.id},'assigned')">←</button>`;
 
+    // Mostrar tiempo de despacho formateado en UTC-6
     let timeStr = '';
     if(status === 'dispatched' && item.dispatchedAt) {
       const d = new Date(item.dispatchedAt);
       if(!isNaN(d)) {
-        const dateFmt = d.toLocaleDateString('es-SV', {day:'2-digit', month:'2-digit'}) + ' ' + d.toLocaleTimeString('es-SV',{hour:'2-digit',minute:'2-digit'});
-        timeStr = `<div class="card-time">✓ ${dateFmt}</div>`;
+        const utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+        const tz = new Date(utc - (3600000 * 6));
+        const pad = n => String(n).padStart(2, '0');
+        timeStr = `<div class="card-time">✓ ${pad(tz.getDate())}/${pad(tz.getMonth()+1)} ${pad(tz.getHours())}:${pad(tz.getMinutes())}</div>`;
       }
     }
 
@@ -507,11 +532,10 @@ function moveItem(id, s){
   if(item && item.status !== s) { 
     item.status = s; 
     
-    // Logica de registro de tiempo
     if(s === 'dispatched') {
-      item.dispatchedAt = new Date().toISOString();
+      item.dispatchedAt = getUTC6Info().iso; // Guarda tiempo UTC-6 exacto
     } else {
-      delete item.dispatchedAt; // Borrar si se devuelve a preparado o asignado
+      delete item.dispatchedAt;
     }
 
     render(); schedulePush(); 
@@ -584,31 +608,28 @@ function check100() {
   if(t > 0 && allItems.filter(i=>i.status==='dispatched').length === t) document.getElementById('completionModal').classList.remove('hidden');
 }
 
-function getFileName() {
-  const date = new Date();
-  const d = String(date.getDate()).padStart(2, '0');
-  const m = String(date.getMonth() + 1).padStart(2, '0');
-  const y = date.getFullYear();
-  return `despacho_fr_${d}_${m}_${y}.json`;
-}
-
+// ==========================================
+// EXPORTACIÓN Y FINALIZACIÓN
+// ==========================================
 function exportJSON() {
   if(!allItems.length) { showToast('❌ No hay datos para exportar'); return; }
-  const blob = new Blob([JSON.stringify({ date: new Date().toISOString(), items: allItems }, null, 2)], {type:'application/json'});
+  const tInfo = getUTC6Info();
+  const blob = new Blob([JSON.stringify({ date: tInfo.iso, items: allItems }, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = getFileName();
+  a.download = tInfo.file; // Usa nombre despacho_fr_DD_MM_YYYY.json
   a.click();
   showToast('⬇ JSON exportado');
 }
 
 function finishAndClear() {
-  const blob = new Blob([JSON.stringify({ date: new Date().toISOString(), items: allItems }, null, 2)], {type:'application/json'});
+  const tInfo = getUTC6Info();
+  const blob = new Blob([JSON.stringify({ date: tInfo.iso, items: allItems }, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob); 
   const a = document.createElement('a'); 
   a.href = url; 
-  a.download = getFileName(); 
+  a.download = tInfo.file; 
   a.click();
   
   allItems = [];
