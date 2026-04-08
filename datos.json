@@ -292,7 +292,7 @@
       "id": 48,
       "fr": "49B",
       "code": "64069",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 49,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:49:14.502Z",
+  "updatedAt": "2026-04-08T22:49:16.839Z",
   "total": 294
 }
