@@ -142,7 +142,7 @@
       "id": 23,
       "fr": "24B",
       "code": "88171",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 24,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:45:11.579Z",
+  "updatedAt": "2026-04-08T22:45:14.382Z",
   "total": 294
 }
