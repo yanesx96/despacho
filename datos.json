@@ -148,7 +148,7 @@
       "id": 24,
       "fr": "25B",
       "code": "60179",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 25,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:46:34.720Z",
+  "updatedAt": "2026-04-08T22:46:37.483Z",
   "total": 294
 }
