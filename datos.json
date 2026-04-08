@@ -214,7 +214,7 @@
       "id": 35,
       "fr": "36B",
       "code": "64080",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 36,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:46:48.758Z",
+  "updatedAt": "2026-04-08T22:46:51.316Z",
   "total": 294
 }
