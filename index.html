@@ -153,6 +153,7 @@
     <div class="sync-badge" id="syncBadge"><span class="sync-dot"></span><span id="syncLabel">Sin Configurar</span></div>
     <button class="hdr-btn" onclick="openSetup()">⚙ API</button>
     <button class="hdr-btn" onclick="manualSync()">↻ Sync</button>
+    <button class="hdr-btn" onclick="exportJSON()">⬇ Exportar</button>
     <button class="import-btn" onclick="document.getElementById('fileInput').click()">Cargar Excel</button>
     <input type="file" id="fileInput" accept=".xlsx,.xls" onchange="loadExcel(event)">
   </div>
@@ -520,38 +521,34 @@ function updateStats(){
 
   const cx = cvs.width/2, cy = cvs.height/2, rad = 54, inner = 38; 
   let start = -Math.PI/2;
-  const gap = 0.04; // Pequeña separación visual entre rebanadas
+  const gap = 0.04; 
 
   [{v:r, c:'#fbbf24'}, {v:a, c:'#60a5fa'}, {v:d, c:'#34d399'}].forEach(seg => {
     if(seg.v===0) return; 
     const angle = (seg.v/t) * Math.PI*2;
     ctx.beginPath(); 
     ctx.moveTo(cx,cy); 
-    // Si no es el 100%, aplicamos el pequeño gap para separarlos
     ctx.arc(cx, cy, rad, start, start + angle - (t>1 && seg.v!==t ? gap : 0)); 
     ctx.fillStyle = seg.c; 
     ctx.fill(); 
     start += angle;
   });
 
-  // Limpiar el centro del anillo
   ctx.globalCompositeOperation = 'destination-out';
   ctx.beginPath(); ctx.arc(cx, cy, inner, 0, Math.PI*2); ctx.fill();
   
-  // Rellenar con color de fondo por seguridad
   ctx.globalCompositeOperation = 'source-over';
   ctx.beginPath(); ctx.arc(cx, cy, inner-1, 0, Math.PI*2); 
-  ctx.fillStyle = '#121214'; // var(--surface)
+  ctx.fillStyle = '#121214'; 
   ctx.fill();
 
-  // Texto central (Porcentaje de Despacho)
-  ctx.fillStyle = '#f4f4f5'; // var(--text)
+  ctx.fillStyle = '#f4f4f5'; 
   ctx.font = 'bold 22px Inter, sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillText(pD + '%', cx, cy - 4);
 
-  ctx.fillStyle = '#a1a1aa'; // var(--muted)
+  ctx.fillStyle = '#a1a1aa'; 
   ctx.font = '8px Space Mono, monospace';
   ctx.fillText('COMPLETADO', cx, cy + 14);
 }
@@ -561,9 +558,35 @@ function check100() {
   if(t > 0 && allItems.filter(i=>i.status==='dispatched').length === t) document.getElementById('completionModal').classList.remove('hidden');
 }
 
+// Función para generar el nombre de archivo con formato fecha
+function getFileName() {
+  const date = new Date();
+  const d = String(date.getDate()).padStart(2, '0');
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const y = date.getFullYear();
+  return `despacho_fr_${d}_${m}_${y}.json`;
+}
+
+// Exportación Manual
+function exportJSON() {
+  if(!allItems.length) { showToast('❌ No hay datos para exportar'); return; }
+  const blob = new Blob([JSON.stringify({ date: new Date().toISOString(), items: allItems }, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = getFileName();
+  a.click();
+  showToast('⬇ JSON exportado');
+}
+
+// Finalización y Limpieza al 100%
 function finishAndClear() {
   const blob = new Blob([JSON.stringify({ date: new Date().toISOString(), items: allItems }, null, 2)], {type:'application/json'});
-  const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'despacho_completado.json'; a.click();
+  const url = URL.createObjectURL(blob); 
+  const a = document.createElement('a'); 
+  a.href = url; 
+  a.download = getFileName(); 
+  a.click();
   
   allItems = [];
   document.getElementById('completionModal').classList.add('hidden');
