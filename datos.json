@@ -298,7 +298,7 @@
       "id": 49,
       "fr": "50B",
       "code": "80110",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 50,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:49:12.007Z",
+  "updatedAt": "2026-04-08T22:49:14.502Z",
   "total": 294
 }
