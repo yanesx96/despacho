@@ -1985,69 +1985,80 @@
       "id": 283,
       "fr": "284B",
       "code": "64009",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T23:34:59.451Z"
     },
     {
       "id": 284,
       "fr": "285B",
       "code": "64120",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T23:34:59.601Z"
     },
     {
       "id": 285,
       "fr": "286B",
       "code": "66114",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T23:34:59.764Z"
     },
     {
       "id": 286,
       "fr": "287B",
       "code": "66128",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T23:34:59.914Z"
     },
     {
       "id": 287,
       "fr": "288B",
       "code": "80053",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T23:35:00.078Z"
     },
     {
       "id": 288,
       "fr": "289B",
       "code": "86193",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T23:35:00.231Z"
     },
     {
       "id": 289,
       "fr": "290B",
       "code": "80179",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T23:35:00.381Z"
     },
     {
       "id": 290,
       "fr": "291B",
       "code": "12514",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T23:35:00.531Z"
     },
     {
       "id": 291,
       "fr": "292B",
       "code": "12513",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T23:35:00.676Z"
     },
     {
       "id": 292,
       "fr": "293B",
       "code": "80035",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T23:35:00.818Z"
     },
     {
       "id": 293,
       "fr": "294B",
       "code": "80011",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T23:35:00.978Z"
     }
   ],
-  "updatedAt": "2026-04-08T23:34:58.407Z",
+  "updatedAt": "2026-04-08T23:35:02.556Z",
   "total": 294
 }
