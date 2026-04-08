@@ -568,121 +568,121 @@
       "id": 94,
       "fr": "95B",
       "code": "86319",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 95,
       "fr": "96B",
       "code": "10589",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 96,
       "fr": "97B",
       "code": "88090",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 97,
       "fr": "98B",
       "code": "12488",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 98,
       "fr": "99B",
       "code": "60033",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 99,
       "fr": "100B",
       "code": "60032",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 100,
       "fr": "101B",
       "code": "60029",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 101,
       "fr": "102B",
       "code": "60027",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 102,
       "fr": "103B",
       "code": "64014",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 103,
       "fr": "104B",
       "code": "10577",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 104,
       "fr": "105B",
       "code": "78013",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 105,
       "fr": "106B",
       "code": "86413",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 106,
       "fr": "107B",
       "code": "80002",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 107,
       "fr": "108B",
       "code": "12482",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 108,
       "fr": "109B",
       "code": "80001",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 109,
       "fr": "110B",
       "code": "60005",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 110,
       "fr": "111B",
       "code": "86367",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 111,
       "fr": "112B",
       "code": "10547",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 112,
       "fr": "113B",
       "code": "11185",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 113,
       "fr": "114B",
       "code": "10546",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 114,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:51:46.758Z",
+  "updatedAt": "2026-04-08T22:51:53.970Z",
   "total": 294
 }
