@@ -117,10 +117,14 @@
   .upload-zone h3 { font-size:16px; font-weight:600; margin-bottom:8px; }
   .upload-zone p { font-size:11px; color:var(--muted); font-family:'Space Mono', monospace; }
 
-  /* CHARTS */
-  .chart-section { background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:16px; margin-bottom:20px; display:flex; gap:30px; align-items:center; flex-wrap:wrap; }
-  .donut-wrap { display:flex; gap:20px; align-items:center; }
-  .legend-item { display:flex; align-items:center; gap:8px; font-family:'Space Mono', monospace; font-size:10px; color:var(--muted); margin-bottom:6px; }
+  /* CHARTS & LEGEND */
+  .chart-section { background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:20px; margin-bottom:20px; display:flex; gap:35px; align-items:center; flex-wrap:wrap; }
+  .donut-wrap { display:flex; gap:30px; align-items:center; }
+  .donut-legend { display:flex; flex-direction:column; gap:12px; }
+  .legend-item { display:flex; align-items:center; gap:10px; font-family:'Space Mono', monospace; font-size:11px; color:var(--muted); }
+  .leg-label { width:80px; text-transform:uppercase; letter-spacing:0.05em; }
+  .leg-val { font-weight:700; color:var(--text); width:30px; text-align:right; font-size:14px; font-family:'Inter', sans-serif;}
+  .leg-pct { opacity:0.6; width:45px; text-align:right; border-left:1px solid var(--border); padding-left:10px;}
 
   /* GHOST (Arrastre Táctil) */
   #touchGhost { position:fixed; pointer-events:none; z-index:9999; display:none; background:var(--surface2); padding:10px 14px; border:1px solid var(--border); border-radius:6px; box-shadow:0 10px 25px rgba(0,0,0,0.5); font-weight:600; }
@@ -134,6 +138,7 @@
     .stats-bar { grid-template-columns:repeat(3, 1fr); }
     .s-total, .s-pct { grid-column:1/-1; }
     .chart-section { justify-content:center; }
+    .donut-wrap { flex-direction: column; gap: 20px; }
   }
 </style>
 </head>
@@ -198,11 +203,27 @@
 
   <div class="chart-section hidden" id="ui-chart">
     <div class="donut-wrap">
-      <canvas id="donutCanvas" width="120" height="120"></canvas>
-      <div>
-        <div class="legend-item"><span class="col-dot" style="background:var(--c-ready)"></span> Preparado</div>
-        <div class="legend-item"><span class="col-dot" style="background:var(--c-assigned)"></span> Asignado</div>
-        <div class="legend-item"><span class="col-dot" style="background:var(--c-disp)"></span> Despachado</div>
+      <canvas id="donutCanvas" width="140" height="140"></canvas>
+      
+      <div class="donut-legend">
+        <div class="legend-item">
+          <span class="col-dot" style="background:var(--c-ready)"></span>
+          <div class="leg-label">Preparado</div>
+          <div class="leg-val" id="leg-v-ready">0</div>
+          <div class="leg-pct" id="leg-p-ready">0%</div>
+        </div>
+        <div class="legend-item">
+          <span class="col-dot" style="background:var(--c-assigned)"></span>
+          <div class="leg-label">Asignado</div>
+          <div class="leg-val" id="leg-v-assigned">0</div>
+          <div class="leg-pct" id="leg-p-assigned">0%</div>
+        </div>
+        <div class="legend-item">
+          <span class="col-dot" style="background:var(--c-disp)"></span>
+          <div class="leg-label">Despachado</div>
+          <div class="leg-val" id="leg-v-disp">0</div>
+          <div class="leg-pct" id="leg-p-disp">0%</div>
+        </div>
       </div>
     </div>
   </div>
@@ -291,9 +312,8 @@ async function pullFromGitHub() {
   setSyncState('syncing', 'Leyendo...');
   try {
     const data = await ghRead();
-    // Si el archivo no existe o el arreglo items viene vacío (ej. alguien limpió el tablero)
     if (!data || !Array.isArray(data.items) || !data.items.length) {
-      if (allItems.length > 0) { allItems = []; render(); showBoard(false); } // Reflejar limpieza localmente
+      if (allItems.length > 0) { allItems = []; render(); showBoard(false); } 
       setSyncState('ok', 'Conectado · Sin datos');
       return false;
     }
@@ -438,7 +458,6 @@ function renderCol(bodyId, items, status) {
   });
 }
 
-// Lógica para que no se bloquee el scroll normal
 document.addEventListener('touchmove', e => {
   if (touchDragId !== null) {
     e.preventDefault(); 
@@ -470,20 +489,71 @@ function moveItem(id, s){
 }
 
 function updateStats(){
-  const t=allItems.length, r=allItems.filter(i=>i.status==='ready').length, a=allItems.filter(i=>i.status==='assigned').length, d=allItems.filter(i=>i.status==='dispatched').length;
-  document.getElementById('statTotal').textContent = t; document.getElementById('statReady').textContent = r;
-  document.getElementById('statAssigned').textContent = a; document.getElementById('statDisp').textContent = d;
-  document.getElementById('statPct').textContent = t ? Math.round((d/t)*100)+'%' : '0%';
+  const t = allItems.length;
+  const r = allItems.filter(i=>i.status==='ready').length;
+  const a = allItems.filter(i=>i.status==='assigned').length;
+  const d = allItems.filter(i=>i.status==='dispatched').length;
+
+  const pR = t ? Math.round((r/t)*100) : 0;
+  const pA = t ? Math.round((a/t)*100) : 0;
+  const pD = t ? Math.round((d/t)*100) : 0;
+
+  // Actualizar top stats
+  document.getElementById('statTotal').textContent = t; 
+  document.getElementById('statReady').textContent = r;
+  document.getElementById('statAssigned').textContent = a; 
+  document.getElementById('statDisp').textContent = d;
+  document.getElementById('statPct').textContent = pD + '%';
   
-  const cvs=document.getElementById('donutCanvas'), ctx=cvs.getContext('2d');
+  // Actualizar Leyenda del Donut
+  document.getElementById('leg-v-ready').textContent = r;
+  document.getElementById('leg-p-ready').textContent = pR + '%';
+  document.getElementById('leg-v-assigned').textContent = a;
+  document.getElementById('leg-p-assigned').textContent = pA + '%';
+  document.getElementById('leg-v-disp').textContent = d;
+  document.getElementById('leg-p-disp').textContent = pD + '%';
+
+  // Dibujar Donut
+  const cvs = document.getElementById('donutCanvas'), ctx = cvs.getContext('2d');
   ctx.clearRect(0,0,cvs.width,cvs.height);
   if(t===0) return;
-  const cx=cvs.width/2, cy=cvs.height/2, rad=40; let start = -Math.PI/2;
+
+  const cx = cvs.width/2, cy = cvs.height/2, rad = 54, inner = 38; 
+  let start = -Math.PI/2;
+  const gap = 0.04; // Pequeña separación visual entre rebanadas
+
   [{v:r, c:'#fbbf24'}, {v:a, c:'#60a5fa'}, {v:d, c:'#34d399'}].forEach(seg => {
-    if(seg.v===0) return; const angle=(seg.v/t)*Math.PI*2;
-    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,rad,start,start+angle); ctx.fillStyle=seg.c; ctx.fill(); start+=angle;
+    if(seg.v===0) return; 
+    const angle = (seg.v/t) * Math.PI*2;
+    ctx.beginPath(); 
+    ctx.moveTo(cx,cy); 
+    // Si no es el 100%, aplicamos el pequeño gap para separarlos
+    ctx.arc(cx, cy, rad, start, start + angle - (t>1 && seg.v!==t ? gap : 0)); 
+    ctx.fillStyle = seg.c; 
+    ctx.fill(); 
+    start += angle;
   });
-  ctx.beginPath(); ctx.arc(cx,cy, 25, 0, Math.PI*2); ctx.fillStyle='var(--surface)'; ctx.fill();
+
+  // Limpiar el centro del anillo
+  ctx.globalCompositeOperation = 'destination-out';
+  ctx.beginPath(); ctx.arc(cx, cy, inner, 0, Math.PI*2); ctx.fill();
+  
+  // Rellenar con color de fondo por seguridad
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.beginPath(); ctx.arc(cx, cy, inner-1, 0, Math.PI*2); 
+  ctx.fillStyle = '#121214'; // var(--surface)
+  ctx.fill();
+
+  // Texto central (Porcentaje de Despacho)
+  ctx.fillStyle = '#f4f4f5'; // var(--text)
+  ctx.font = 'bold 22px Inter, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(pD + '%', cx, cy - 4);
+
+  ctx.fillStyle = '#a1a1aa'; // var(--muted)
+  ctx.font = '8px Space Mono, monospace';
+  ctx.fillText('COMPLETADO', cx, cy + 14);
 }
 
 function check100() {
@@ -492,15 +562,13 @@ function check100() {
 }
 
 function finishAndClear() {
-  // Descargar JSON
   const blob = new Blob([JSON.stringify({ date: new Date().toISOString(), items: allItems }, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'despacho_completado.json'; a.click();
   
-  // Limpiar y pushear arreglo vacío a GitHub
   allItems = [];
   document.getElementById('completionModal').classList.add('hidden');
   showBoard(false);
-  schedulePush(); // Mandará data.items = [] a GitHub
+  schedulePush(); 
   showToast('✓ Respaldo descargado y sistema limpio');
 }
 
@@ -518,7 +586,7 @@ setInterval(async()=>{
   try {
     const data = await ghRead();
     if(data && data._sha && data._sha !== currentSha) {
-      if(!Array.isArray(data.items) || data.items.length === 0) { allItems = []; showBoard(false); } // Otro usuario vació el tablero
+      if(!Array.isArray(data.items) || data.items.length === 0) { allItems = []; showBoard(false); } 
       else { allItems = data.items; showBoard(true); }
       currentSha = data._sha; render(); showToast('🔄 Actualizado remoto');
     }
