@@ -94,7 +94,7 @@
       "id": 15,
       "fr": "16B",
       "code": "64105",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 16,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:47:47.167Z",
+  "updatedAt": "2026-04-08T22:47:49.752Z",
   "total": 294
 }
