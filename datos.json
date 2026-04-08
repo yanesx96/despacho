@@ -262,7 +262,7 @@
       "id": 43,
       "fr": "44B",
       "code": "86419",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 44,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:49:26.688Z",
+  "updatedAt": "2026-04-08T22:49:29.213Z",
   "total": 294
 }
