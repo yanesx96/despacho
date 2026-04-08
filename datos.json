@@ -316,7 +316,7 @@
       "id": 52,
       "fr": "53B",
       "code": "12652",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 53,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:48:30.486Z",
+  "updatedAt": "2026-04-08T22:48:33.787Z",
   "total": 294
 }
