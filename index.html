@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Sistema de Despacho — FR & Código</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
+  
+  :root {
+    --bg: #09090b; --surface: #121214; --surface2: #18181b; --border: #27272a;
+    --text: #f4f4f5; --muted: #a1a1aa;
+    --c-ready: #fbbf24;    /* Amarillo */
+    --c-assigned: #60a5fa; /* Azul */
+    --c-disp: #34d399;     /* Verde */
+    --c-err: #f87171;      /* Rojo */
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  body { font-family:'Inter', sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; }
+
+  /* HEADER */
+  header { position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:12px 20px; border-bottom:1px solid var(--border); background:rgba(18,18,20,0.9); backdrop-filter:blur(8px); flex-wrap:wrap; gap:10px; }
+  .logo { display:flex; align-items:center; gap:10px; }
+  .logo-mark { width:32px; height:32px; background:var(--text); color:var(--bg); border-radius:6px; display:flex; align-items:center; justify-content:center; font-family:'Space Mono', monospace; font-size:12px; font-weight:700; }
+  .logo-text h1 { font-size:16px; font-weight:700; letter-spacing:-0.02em; }
+  .logo-text span { font-size:10px; color:var(--muted); font-family:'Space Mono', monospace; letter-spacing:0.1em; text-transform:uppercase; }
+  .header-actions { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+
+  /* SYNC BADGE */
+  .sync-badge { display:flex; align-items:center; gap:6px; padding:6px 10px; border-radius:4px; font-family:'Space Mono', monospace; font-size:9px; border:1px solid var(--border); color:var(--muted); }
+  .sync-badge.ok { border-color:rgba(52,211,153,0.3); color:var(--c-disp); background:rgba(52,211,153,0.05); }
+  .sync-badge.syncing { border-color:rgba(96,165,250,0.3); color:var(--c-assigned); background:rgba(96,165,250,0.05); }
+  .sync-badge.err { border-color:rgba(248,113,113,0.3); color:var(--c-err); background:rgba(248,113,113,0.05); }
+  .sync-dot { width:6px; height:6px; border-radius:50%; background:currentColor; flex-shrink:0; }
+  .sync-badge.syncing .sync-dot { animation:pulse 1s infinite alternate; }
+  @keyframes pulse { to { opacity: 0.4; transform:scale(0.8); } }
+
+  .hdr-btn { padding:8px 12px; background:var(--surface2); border:1px solid var(--border); border-radius:4px; color:var(--text); font-family:'Space Mono', monospace; font-size:10px; cursor:pointer; transition:all 0.2s; }
+  .hdr-btn:hover { background:var(--border); }
+  .import-btn { display:flex; align-items:center; gap:6px; padding:8px 14px; background:var(--text); color:var(--bg); font-weight:600; border:none; border-radius:4px; cursor:pointer; font-size:12px; transition:all 0.2s; }
+  .import-btn:hover { opacity:0.9; }
+  #fileInput { display:none; }
+
+  /* MODALS */
+  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.85); backdrop-filter:blur(4px); z-index:500; display:flex; align-items:center; justify-content:center; padding:20px; }
+  .modal { background:var(--surface); border:1px solid var(--border); border-radius:8px; max-width:500px; width:100%; padding:24px; position:relative; }
+  .modal-close { position:absolute; top:12px; right:12px; background:none; border:none; color:var(--muted); cursor:pointer; font-size:18px; padding:4px; }
+  .modal h2 { font-size:18px; font-weight:700; margin-bottom:16px; }
+  .field-wrap { margin-bottom:12px; }
+  .field-label { font-family:'Space Mono', monospace; font-size:9px; color:var(--muted); margin-bottom:4px; text-transform:uppercase; }
+  .field-input { width:100%; padding:10px; background:var(--surface2); border:1px solid var(--border); border-radius:4px; color:var(--text); font-family:'Space Mono', monospace; font-size:12px; outline:none; }
+  .field-input:focus { border-color:var(--muted); }
+  .modal-btn { width:100%; padding:12px; background:var(--text); color:var(--bg); font-weight:600; border:none; border-radius:4px; cursor:pointer; margin-top:10px; }
+  .modal-btn.outline { background:transparent; color:var(--text); border:1px solid var(--border); }
+  .modal-btn:hover { opacity:0.9; }
+
+  /* MAIN */
+  main { padding:20px; max-width:1600px; margin:0 auto; }
+  .info-banner { padding:10px 14px; margin-bottom:16px; background:var(--surface2); border:1px solid var(--border); border-radius:6px; font-family:'Space Mono', monospace; font-size:10px; color:var(--muted); }
+  .info-banner strong { color:var(--text); }
+  
+  .stats-bar { display:grid; grid-template-columns:repeat(5, 1fr); gap:12px; margin-bottom:16px; }
+  .stat-card { background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:14px; }
+  .stat-label { font-family:'Space Mono', monospace; font-size:10px; color:var(--muted); margin-bottom:6px; text-transform:uppercase; }
+  .stat-value { font-size:22px; font-weight:700; line-height:1; }
+  .s-ready .stat-value { color:var(--c-ready); }
+  .s-assigned .stat-value { color:var(--c-assigned); }
+  .s-disp .stat-value { color:var(--c-disp); }
+
+  .toolbar { display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap; align-items:center; }
+  #searchInput { flex:1; min-width:200px; max-width:400px; padding:10px 14px; background:var(--surface); border:1px solid var(--border); border-radius:4px; color:var(--text); font-family:'Space Mono', monospace; font-size:12px; outline:none; }
+  #searchInput:focus { border-color:var(--muted); }
+  
+  .filter-pills { display:flex; gap:6px; flex-wrap:wrap; }
+  .pill { padding:6px 12px; font-family:'Space Mono', monospace; font-size:10px; font-weight:700; border:1px solid var(--border); border-radius:4px; background:transparent; color:var(--muted); cursor:pointer; transition:all 0.2s; }
+  .pill.active { background:var(--surface2); color:var(--text); border-color:var(--text); }
+
+  /* BOARD */
+  .board { display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; margin-bottom:20px; }
+  .column { background:var(--surface); border:1px solid var(--border); border-radius:6px; display:flex; flex-direction:column; min-height:400px; }
+  .column-header { display:flex; align-items:center; justify-content:space-between; padding:12px; border-bottom:1px solid var(--border); }
+  .col-title { font-size:12px; font-weight:600; text-transform:uppercase; display:flex; align-items:center; gap:8px; }
+  .col-dot { width:8px; height:8px; border-radius:50%; }
+  .ready .col-dot { background:var(--c-ready); }
+  .assigned .col-dot { background:var(--c-assigned); }
+  .dispatched .col-dot { background:var(--c-disp); }
+  .col-count { font-family:'Space Mono', monospace; font-size:11px; color:var(--muted); background:var(--surface2); padding:2px 6px; border-radius:4px; }
+  
+  .column-body { flex:1; padding:10px; display:flex; flex-direction:column; gap:8px; overflow-y:auto; max-height:550px; }
+  .column-body::-webkit-scrollbar { width:4px; } .column-body::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
+
+  /* CARDS */
+  .card { background:var(--surface2); border:1px solid var(--border); border-radius:6px; padding:10px; display:flex; align-items:center; gap:10px; transition:border-color 0.2s; user-select:none; }
+  .card:hover { border-color:var(--muted); }
+  .card-ready { border-left:3px solid var(--c-ready); }
+  .card-assigned { border-left:3px solid var(--c-assigned); }
+  .card-dispatched { border-left:3px solid var(--c-disp); }
+  
+  /* Área táctil exclusiva */
+  .card-drag-hint { color:var(--muted); opacity:0.4; font-size:16px; cursor:grab; padding:10px 5px; margin:-10px -5px; touch-action:none; }
+  
+  .card-info { flex:1; min-width:0; }
+  .card-fr { font-family:'Space Mono', monospace; font-size:9px; color:var(--muted); margin-bottom:4px; text-transform:uppercase; }
+  .card-code { font-size:14px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  
+  .card-actions { display:flex; gap:4px; flex-shrink:0; }
+  .card-btn { background:var(--surface); border:1px solid var(--border); color:var(--text); width:26px; height:26px; border-radius:4px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:12px; transition:background 0.2s; }
+  .card-btn:hover { background:var(--border); }
+
+  .empty-state { text-align:center; padding:30px 10px; color:var(--muted); font-size:11px; font-family:'Space Mono', monospace; }
+
+  /* UPLOAD ZONE */
+  .upload-zone { grid-column:1/-1; border:1px dashed var(--border); border-radius:8px; padding:60px 20px; text-align:center; cursor:pointer; transition:background 0.2s; min-height:300px; display:flex; flex-direction:column; justify-content:center; align-items:center; }
+  .upload-zone:hover { background:var(--surface); border-style:solid; }
+  .upload-zone h3 { font-size:16px; font-weight:600; margin-bottom:8px; }
+  .upload-zone p { font-size:11px; color:var(--muted); font-family:'Space Mono', monospace; }
+
+  /* CHARTS */
+  .chart-section { background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:16px; margin-bottom:20px; display:flex; gap:30px; align-items:center; flex-wrap:wrap; }
+  .donut-wrap { display:flex; gap:20px; align-items:center; }
+  .legend-item { display:flex; align-items:center; gap:8px; font-family:'Space Mono', monospace; font-size:10px; color:var(--muted); margin-bottom:6px; }
+
+  /* GHOST (Arrastre Táctil) */
+  #touchGhost { position:fixed; pointer-events:none; z-index:9999; display:none; background:var(--surface2); padding:10px 14px; border:1px solid var(--border); border-radius:6px; box-shadow:0 10px 25px rgba(0,0,0,0.5); font-weight:600; }
+
+  .toast { position:fixed; bottom:20px; right:20px; background:var(--surface2); border:1px solid var(--border); padding:12px 16px; border-radius:4px; font-family:'Space Mono', monospace; font-size:11px; color:var(--text); z-index:9999; box-shadow:0 8px 24px rgba(0,0,0,0.5); }
+  
+  .hidden { display:none !important; }
+
+  @media(max-width:800px) {
+    .board { grid-template-columns:1fr; }
+    .stats-bar { grid-template-columns:repeat(3, 1fr); }
+    .s-total, .s-pct { grid-column:1/-1; }
+    .chart-section { justify-content:center; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">FR</div>
+    <div class="logo-text"><h1>DespachoBoard</h1><span>Sincronizado</span></div>
+  </div>
+  <div class="header-actions">
+    <div class="sync-badge" id="syncBadge"><span class="sync-dot"></span><span id="syncLabel">Sin Configurar</span></div>
+    <button class="hdr-btn" onclick="openSetup()">⚙ API</button>
+    <button class="hdr-btn" onclick="manualSync()">↻ Sync</button>
+    <button class="import-btn" onclick="document.getElementById('fileInput').click()">Cargar Excel</button>
+    <input type="file" id="fileInput" accept=".xlsx,.xls" onchange="loadExcel(event)">
+  </div>
+</header>
+
+<main>
+  <div class="info-banner hidden" id="infoBanner"><span id="bannerText"></span></div>
+
+  <div class="stats-bar hidden" id="ui-stats">
+    <div class="stat-card s-total"><div class="stat-label">Total</div><div class="stat-value" id="statTotal">0</div></div>
+    <div class="stat-card s-ready"><div class="stat-label">Preparados</div><div class="stat-value" id="statReady">0</div></div>
+    <div class="stat-card s-assigned"><div class="stat-label">Asignados</div><div class="stat-value" id="statAssigned">0</div></div>
+    <div class="stat-card s-disp"><div class="stat-label">Despachados</div><div class="stat-value" id="statDisp">0</div></div>
+    <div class="stat-card s-pct"><div class="stat-label">Progreso</div><div class="stat-value" id="statPct">0%</div></div>
+  </div>
+
+  <div class="toolbar hidden" id="ui-toolbar">
+    <input type="text" id="searchInput" placeholder="Buscar FR o Código..." oninput="onSearch()">
+    <div class="filter-pills">
+      <button class="pill active" id="pill-all" onclick="setFilter('all')">Todos</button>
+      <button class="pill" id="pill-ready" onclick="setFilter('ready')">Preparado</button>
+      <button class="pill" id="pill-assigned" onclick="setFilter('assigned')">Asignado</button>
+      <button class="pill" id="pill-dispatched" onclick="setFilter('dispatched')">Despachado</button>
+    </div>
+  </div>
+
+  <div class="board">
+    <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+      <h3>Arrastra o toca para cargar Excel</h3>
+      <p>Requiere columnas: FR, CODIGO</p>
+    </div>
+    
+    <div class="column ready hidden ui-col" id="col-ready" ondragover="event.preventDefault()" ondrop="dropCard(event, 'ready')">
+      <div class="column-header"><div class="col-title"><span class="col-dot"></span>Preparado</div><span class="col-count" id="count-ready">0</span></div>
+      <div class="column-body" id="body-ready"></div>
+    </div>
+    
+    <div class="column assigned hidden ui-col" id="col-assigned" ondragover="event.preventDefault()" ondrop="dropCard(event, 'assigned')">
+      <div class="column-header"><div class="col-title"><span class="col-dot"></span>Asignado</div><span class="col-count" id="count-assigned">0</span></div>
+      <div class="column-body" id="body-assigned"></div>
+    </div>
+    
+    <div class="column dispatched hidden ui-col" id="col-dispatched" ondragover="event.preventDefault()" ondrop="dropCard(event, 'dispatched')">
+      <div class="column-header"><div class="col-title"><span class="col-dot"></span>Despachado</div><span class="col-count" id="count-dispatched">0</span></div>
+      <div class="column-body" id="body-dispatched"></div>
+    </div>
+  </div>
+
+  <div class="chart-section hidden" id="ui-chart">
+    <div class="donut-wrap">
+      <canvas id="donutCanvas" width="120" height="120"></canvas>
+      <div>
+        <div class="legend-item"><span class="col-dot" style="background:var(--c-ready)"></span> Preparado</div>
+        <div class="legend-item"><span class="col-dot" style="background:var(--c-assigned)"></span> Asignado</div>
+        <div class="legend-item"><span class="col-dot" style="background:var(--c-disp)"></span> Despachado</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="modal-overlay hidden" id="setupModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeSetup()">✕</button>
+    <h2>Configuración de GitHub</h2>
+    <div class="field-wrap">
+      <div class="field-label">Usuario / Organización</div>
+      <input class="field-input" id="cfgUser" type="text" placeholder="usuario">
+    </div>
+    <div class="field-wrap">
+      <div class="field-label">Repositorio</div>
+      <input class="field-input" id="cfgRepo" type="text" placeholder="repo">
+    </div>
+    <div class="field-wrap">
+      <div class="field-label">Token de Acceso</div>
+      <input class="field-input" id="cfgToken" type="password" placeholder="ghp_...">
+    </div>
+    <div class="field-wrap">
+      <div class="field-label">Ruta (Opcional)</div>
+      <input class="field-input" id="cfgPath" type="text" placeholder="datos.json">
+    </div>
+    <button class="modal-btn" onclick="saveConfig()">Guardar y Conectar</button>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="completionModal">
+  <div class="modal" style="text-align:center">
+    <h2 style="color:var(--c-disp)">¡Despacho Completado! 🎉</h2>
+    <p style="color:var(--muted); font-size:13px; margin-bottom:20px; line-height:1.5;">Has despachado el 100% del archivo. Descarga tu respaldo y el sistema limpiará el tablero local y en GitHub automáticamente.</p>
+    <button class="modal-btn" onclick="finishAndClear()">Descargar JSON y Limpiar Sistema</button>
+    <button class="modal-btn outline" onclick="document.getElementById('completionModal').classList.add('hidden')">Seguir viendo el tablero</button>
+  </div>
+</div>
+
+<div id="touchGhost"><span id="ghostCode"></span></div>
+
+<script>
+// ==========================================
+// CONFIGURACIÓN GITHUB
+// ==========================================
+const LS_CFG = 'despachoboard_ghcfg';
+let cfg = { user:'', repo:'', token:'', path:'datos.json' };
+let currentSha = null;
+let writeTimer = null;
+
+function loadCfg() { try { cfg = {...cfg, ...JSON.parse(localStorage.getItem(LS_CFG)||'{}')}; } catch{} }
+function saveCfg() { localStorage.setItem(LS_CFG, JSON.stringify(cfg)); }
+function isReady() { return !!(cfg.user && cfg.repo && cfg.token); }
+const ghBase = () => `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${cfg.path||'datos.json'}`;
+
+async function ghRead() {
+  const r = await fetch(ghBase(), { headers: { Authorization: `token ${cfg.token}`, Accept: 'application/vnd.github.v3+json' }});
+  if (r.status === 404) return null;
+  if (!r.ok) throw new Error(`GitHub ${r.status}`);
+  const meta = await r.json();
+  const text = decodeURIComponent(escape(atob(meta.content.replace(/\n/g,''))));
+  const data = JSON.parse(text);
+  data._sha = meta.sha;
+  return data;
+}
+
+async function ghWrite(data) {
+  const sha = data._sha;
+  const copy = {...data}; delete copy._sha;
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(copy, null, 2))));
+  const body = { message: `DespachoBoard update ${new Date().toISOString()}`, content, ...(sha ? { sha } : {}) };
+  const r = await fetch(ghBase(), { method: 'PUT', headers: { Authorization:`token ${cfg.token}`, Accept:'application/vnd.github.v3+json', 'Content-Type':'application/json' }, body: JSON.stringify(body) });
+  if (!r.ok) { const e = await r.json(); throw new Error(e.message || `GitHub ${r.status}`); }
+  const res = await r.json(); return res.content.sha;
+}
+
+function setSyncState(state, label) {
+  document.getElementById('syncBadge').className = 'sync-badge ' + state;
+  document.getElementById('syncLabel').textContent = label;
+}
+
+// ==========================================
+// PULL / PUSH
+// ==========================================
+async function pullFromGitHub() {
+  if (!isReady()) return false;
+  setSyncState('syncing', 'Leyendo...');
+  try {
+    const data = await ghRead();
+    // Si el archivo no existe o el arreglo items viene vacío (ej. alguien limpió el tablero)
+    if (!data || !Array.isArray(data.items) || !data.items.length) {
+      if (allItems.length > 0) { allItems = []; render(); showBoard(false); } // Reflejar limpieza localmente
+      setSyncState('ok', 'Conectado · Sin datos');
+      return false;
+    }
+    allItems = data.items;
+    currentSha = data._sha;
+    setSyncState('ok', `Sync OK · ${new Date().toLocaleTimeString('es-SV',{hour:'2-digit',minute:'2-digit'})}`);
+    return true;
+  } catch(e) {
+    setSyncState('err', 'Error al leer'); return false;
+  }
+}
+
+function schedulePush() {
+  if (!isReady()) return;
+  clearTimeout(writeTimer);
+  setSyncState('syncing', 'Guardando...');
+  writeTimer = setTimeout(doPush, 1500);
+}
+
+async function doPush() {
+  try {
+    const payload = {
+      items: allItems,
+      updatedAt: new Date().toISOString(),
+      total: allItems.length,
+      _sha: currentSha
+    };
+    currentSha = await ghWrite(payload);
+    setSyncState('ok', `Guardado · ${new Date().toLocaleTimeString('es-SV',{hour:'2-digit',minute:'2-digit'})}`);
+  } catch(e) {
+    setSyncState('err', `Error al guardar`);
+  }
+}
+
+async function manualSync() { if(isReady()) { const ok = await pullFromGitHub(); if(ok){ showBoard(true); render(); showToast('↻ Sincronizado'); } } else openSetup(); }
+
+// ==========================================
+// ESTADO LOCAL Y LÓGICA DE INTERFAZ
+// ==========================================
+let allItems = [];
+let dragId = null;
+let activeFilter = 'all';
+let searchTerm = '';
+let touchDragId = null, touchOffX = 0, touchOffY = 0;
+const ghost = document.getElementById('touchGhost');
+
+function openSetup(){ 
+  ['cfgUser','cfgRepo','cfgToken','cfgPath'].forEach(id => document.getElementById(id).value = cfg[id.replace('cfg','').toLowerCase()] || '');
+  document.getElementById('setupModal').classList.remove('hidden'); 
+}
+function closeSetup(){ document.getElementById('setupModal').classList.add('hidden'); }
+function saveConfig(){
+  cfg = { user:document.getElementById('cfgUser').value.trim(), repo:document.getElementById('cfgRepo').value.trim(), token:document.getElementById('cfgToken').value.trim(), path:document.getElementById('cfgPath').value.trim()||'datos.json' };
+  saveCfg(); closeSetup(); showToast('Configuración guardada'); init();
+}
+
+function loadExcel(e){ const f = e.target.files[0]; if(f) parseFile(f); e.target.value=''; }
+
+function parseFile(file){
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const wb = XLSX.read(ev.target.result,{type:'binary'});
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const data = XLSX.utils.sheet_to_json(ws,{defval:''});
+      if(!data.length) return showToast('Archivo vacío');
+      const keys = Object.keys(data[0]);
+      const frKey = keys.find(k => k.trim().toUpperCase() === 'FR');
+      const codeKey = keys.find(k => /CODIGO|CÓDIGO/i.test(k.trim()));
+      
+      if(!frKey || !codeKey) return showToast('Faltan columnas FR y CODIGO');
+      
+      const prev = {}; allItems.forEach(i => prev[i.code] = i.status);
+      allItems = data.filter(r => r[frKey]!=='' && r[codeKey]!=='').map((r, i) => {
+        const code = String(r[codeKey]).trim();
+        return { id: i, fr: String(r[frKey]).trim(), code, status: prev[code] || 'ready' };
+      });
+      showBoard(true); render(); schedulePush(); showToast(`✓ Excel cargado`);
+    } catch { showToast('Error al procesar archivo'); }
+  };
+  reader.readAsBinaryString(file);
+}
+
+function showBoard(show){
+  document.getElementById('uploadZone').classList.toggle('hidden', show);
+  document.querySelectorAll('.ui-col').forEach(c => c.classList.toggle('hidden', !show));
+  document.getElementById('ui-stats').classList.toggle('hidden', !show);
+  document.getElementById('ui-toolbar').classList.toggle('hidden', !show);
+  document.getElementById('ui-chart').classList.toggle('hidden', !show);
+}
+
+function onSearch(){ searchTerm = document.getElementById('searchInput').value.trim().toLowerCase(); render(); }
+function setFilter(f){ activeFilter=f; document.querySelectorAll('.pill').forEach(p => p.classList.toggle('active', p.id === 'pill-'+f)); render(); }
+
+function render() {
+  const cols = { ready: [], assigned: [], dispatched: [] };
+  allItems.forEach(item => {
+    if(activeFilter !== 'all' && item.status !== activeFilter) return;
+    if(searchTerm && !item.fr.toLowerCase().includes(searchTerm) && !item.code.toLowerCase().includes(searchTerm)) return;
+    cols[item.status].push(item);
+  });
+
+  renderCol('body-ready', cols.ready, 'ready');
+  renderCol('body-assigned', cols.assigned, 'assigned');
+  renderCol('body-dispatched', cols.dispatched, 'dispatched');
+
+  document.getElementById('count-ready').textContent = cols.ready.length;
+  document.getElementById('count-assigned').textContent = cols.assigned.length;
+  document.getElementById('count-dispatched').textContent = cols.dispatched.length;
+
+  updateStats();
+  check100();
+}
+
+function renderCol(bodyId, items, status) {
+  const body = document.getElementById(bodyId); body.innerHTML = '';
+  if(!items.length) { body.innerHTML = `<div class="empty-state">Vacío</div>`; return; }
+  
+  items.forEach(item => {
+    let btns = '';
+    if(status === 'ready') btns = `<button class="card-btn" onclick="moveItem(${item.id},'assigned')">→</button>`;
+    if(status === 'assigned') btns = `<button class="card-btn" onclick="moveItem(${item.id},'ready')">←</button><button class="card-btn" onclick="moveItem(${item.id},'dispatched')">→</button>`;
+    if(status === 'dispatched') btns = `<button class="card-btn" onclick="moveItem(${item.id},'assigned')">←</button>`;
+
+    const div = document.createElement('div');
+    div.className = `card card-${status}`; div.draggable = true;
+    div.innerHTML = `<div class="card-drag-hint">⋮⋮</div><div class="card-info"><div class="card-fr">FR · ${item.fr}</div><div class="card-code">${item.code}</div></div><div class="card-actions">${btns}</div>`;
+    
+    div.addEventListener('dragstart', () => dragId = item.id);
+    
+    // ZONA TÁCTIL (Solo en los puntitos)
+    const hint = div.querySelector('.card-drag-hint');
+    hint.addEventListener('touchstart', e => {
+      const t = e.touches[0], rect = div.getBoundingClientRect();
+      touchDragId = item.id; touchOffX = t.clientX - rect.left; touchOffY = t.clientY - rect.top;
+      document.getElementById('ghostCode').textContent = item.code;
+      ghost.style.left = (t.clientX - touchOffX) + 'px'; ghost.style.top = (t.clientY - touchOffY) + 'px';
+      ghost.style.display = 'block';
+    }, {passive:true});
+
+    body.appendChild(div);
+  });
+}
+
+// Lógica para que no se bloquee el scroll normal
+document.addEventListener('touchmove', e => {
+  if (touchDragId !== null) {
+    e.preventDefault(); 
+    const t = e.touches[0];
+    ghost.style.left = (t.clientX - touchOffX) + 'px'; ghost.style.top = (t.clientY - touchOffY) + 'px';
+  }
+}, {passive:false});
+
+document.addEventListener('touchend', e => {
+  if(touchDragId === null) return;
+  ghost.style.display = 'none';
+  const t = e.changedTouches[0];
+  const under = document.elementFromPoint(t.clientX, t.clientY);
+  if(under) {
+    const col = under.closest('.column');
+    if(col && col.id === 'col-ready') moveItem(touchDragId, 'ready');
+    if(col && col.id === 'col-assigned') moveItem(touchDragId, 'assigned');
+    if(col && col.id === 'col-dispatched') moveItem(touchDragId, 'dispatched');
+  }
+  touchDragId = null;
+});
+
+function allowDrop(e){ e.preventDefault(); }
+function dropCard(e, s){ e.preventDefault(); if(dragId !== null) moveItem(dragId, s); dragId = null; }
+
+function moveItem(id, s){
+  const item = allItems.find(i => i.id === id);
+  if(item && item.status !== s) { item.status = s; render(); schedulePush(); }
+}
+
+function updateStats(){
+  const t=allItems.length, r=allItems.filter(i=>i.status==='ready').length, a=allItems.filter(i=>i.status==='assigned').length, d=allItems.filter(i=>i.status==='dispatched').length;
+  document.getElementById('statTotal').textContent = t; document.getElementById('statReady').textContent = r;
+  document.getElementById('statAssigned').textContent = a; document.getElementById('statDisp').textContent = d;
+  document.getElementById('statPct').textContent = t ? Math.round((d/t)*100)+'%' : '0%';
+  
+  const cvs=document.getElementById('donutCanvas'), ctx=cvs.getContext('2d');
+  ctx.clearRect(0,0,cvs.width,cvs.height);
+  if(t===0) return;
+  const cx=cvs.width/2, cy=cvs.height/2, rad=40; let start = -Math.PI/2;
+  [{v:r, c:'#fbbf24'}, {v:a, c:'#60a5fa'}, {v:d, c:'#34d399'}].forEach(seg => {
+    if(seg.v===0) return; const angle=(seg.v/t)*Math.PI*2;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,rad,start,start+angle); ctx.fillStyle=seg.c; ctx.fill(); start+=angle;
+  });
+  ctx.beginPath(); ctx.arc(cx,cy, 25, 0, Math.PI*2); ctx.fillStyle='var(--surface)'; ctx.fill();
+}
+
+function check100() {
+  const t = allItems.length;
+  if(t > 0 && allItems.filter(i=>i.status==='dispatched').length === t) document.getElementById('completionModal').classList.remove('hidden');
+}
+
+function finishAndClear() {
+  // Descargar JSON
+  const blob = new Blob([JSON.stringify({ date: new Date().toISOString(), items: allItems }, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'despacho_completado.json'; a.click();
+  
+  // Limpiar y pushear arreglo vacío a GitHub
+  allItems = [];
+  document.getElementById('completionModal').classList.add('hidden');
+  showBoard(false);
+  schedulePush(); // Mandará data.items = [] a GitHub
+  showToast('✓ Respaldo descargado y sistema limpio');
+}
+
+function showToast(msg){ const t=document.createElement('div'); t.className='toast'; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),3000); }
+
+async function init(){
+  loadCfg();
+  if(!isReady()){ openSetup(); return; }
+  const ok = await pullFromGitHub();
+  if(ok && allItems.length > 0){ showBoard(true); render(); } else { showBoard(false); }
+}
+
+setInterval(async()=>{
+  if(!isReady()) return;
+  try {
+    const data = await ghRead();
+    if(data && data._sha && data._sha !== currentSha) {
+      if(!Array.isArray(data.items) || data.items.length === 0) { allItems = []; showBoard(false); } // Otro usuario vació el tablero
+      else { allItems = data.items; showBoard(true); }
+      currentSha = data._sha; render(); showToast('🔄 Actualizado remoto');
+    }
+  } catch{}
+}, 30000);
+
+init();
+</script>
+</body>
+</html>
