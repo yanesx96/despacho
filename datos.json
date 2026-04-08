@@ -280,7 +280,7 @@
       "id": 46,
       "fr": "47B",
       "code": "88102",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 47,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:49:19.306Z",
+  "updatedAt": "2026-04-08T22:49:21.819Z",
   "total": 294
 }
