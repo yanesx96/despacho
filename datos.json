@@ -22,7 +22,7 @@
       "id": 3,
       "fr": "4B",
       "code": "12775",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 4,
@@ -34,7 +34,7 @@
       "id": 5,
       "fr": "6B",
       "code": "12776",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 6,
@@ -46,7 +46,7 @@
       "id": 7,
       "fr": "8B",
       "code": "12701",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 8,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:45:07.524Z",
+  "updatedAt": "2026-04-08T22:45:11.579Z",
   "total": 294
 }
