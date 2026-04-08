@@ -112,7 +112,7 @@
       "id": 18,
       "fr": "19B",
       "code": "64111",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 19,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:47:52.264Z",
+  "updatedAt": "2026-04-08T22:47:54.145Z",
   "total": 294
 }
