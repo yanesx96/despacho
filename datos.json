@@ -334,7 +334,7 @@
       "id": 55,
       "fr": "56B",
       "code": "64067",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 56,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:48:55.939Z",
+  "updatedAt": "2026-04-08T22:48:59.279Z",
   "total": 294
 }
