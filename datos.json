@@ -82,7 +82,7 @@
       "id": 13,
       "fr": "14B",
       "code": "86346",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 14,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:47:44.432Z",
+  "updatedAt": "2026-04-08T22:47:47.167Z",
   "total": 294
 }
