@@ -1450,55 +1450,55 @@
       "id": 241,
       "fr": "242B",
       "code": "64039",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 242,
       "fr": "243B",
       "code": "64034",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 243,
       "fr": "244B",
       "code": "12150",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 244,
       "fr": "245B",
       "code": "70021",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 245,
       "fr": "246B",
       "code": "80177",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 246,
       "fr": "247B",
       "code": "80045",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 247,
       "fr": "248B",
       "code": "80040",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 248,
       "fr": "249B",
       "code": "12531",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 249,
       "fr": "250B",
       "code": "60184",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 250,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:56:33.798Z",
+  "updatedAt": "2026-04-08T22:56:37.729Z",
   "total": 294
 }
