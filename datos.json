@@ -711,307 +711,358 @@
       "id": 101,
       "fr": "102B",
       "code": "60027",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:36-06:00"
     },
     {
       "id": 102,
       "fr": "103B",
       "code": "64014",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:36-06:00"
     },
     {
       "id": 103,
       "fr": "104B",
       "code": "10577",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:36-06:00"
     },
     {
       "id": 104,
       "fr": "105B",
       "code": "78013",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:36-06:00"
     },
     {
       "id": 105,
       "fr": "106B",
       "code": "86413",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:36-06:00"
     },
     {
       "id": 106,
       "fr": "107B",
       "code": "80002",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:36-06:00"
     },
     {
       "id": 107,
       "fr": "108B",
       "code": "12482",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:37-06:00"
     },
     {
       "id": 108,
       "fr": "109B",
       "code": "80001",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:37-06:00"
     },
     {
       "id": 109,
       "fr": "110B",
       "code": "60005",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:37-06:00"
     },
     {
       "id": 110,
       "fr": "111B",
       "code": "86367",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:37-06:00"
     },
     {
       "id": 111,
       "fr": "112B",
       "code": "10547",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:37-06:00"
     },
     {
       "id": 112,
       "fr": "113B",
       "code": "11185",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:38-06:00"
     },
     {
       "id": 113,
       "fr": "114B",
       "code": "10546",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:38-06:00"
     },
     {
       "id": 114,
       "fr": "115B",
       "code": "10560",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:38-06:00"
     },
     {
       "id": 115,
       "fr": "116B",
       "code": "64007",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:38-06:00"
     },
     {
       "id": 116,
       "fr": "117B",
       "code": "10566",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:38-06:00"
     },
     {
       "id": 117,
       "fr": "118B",
       "code": "10567",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:38-06:00"
     },
     {
       "id": 118,
       "fr": "119B",
       "code": "12470",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:38-06:00"
     },
     {
       "id": 119,
       "fr": "120B",
       "code": "80157",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:39-06:00"
     },
     {
       "id": 120,
       "fr": "121B",
       "code": "12743",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:39-06:00"
     },
     {
       "id": 121,
       "fr": "122B",
       "code": "12756",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:39-06:00"
     },
     {
       "id": 122,
       "fr": "123B",
       "code": "12633",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:39-06:00"
     },
     {
       "id": 123,
       "fr": "124B",
       "code": "60106",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:39-06:00"
     },
     {
       "id": 124,
       "fr": "125B",
       "code": "60136",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:39-06:00"
     },
     {
       "id": 125,
       "fr": "126B",
       "code": "88117",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:40-06:00"
     },
     {
       "id": 126,
       "fr": "127B",
       "code": "12727",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:40-06:00"
     },
     {
       "id": 127,
       "fr": "128B",
       "code": "12733",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:40-06:00"
     },
     {
       "id": 128,
       "fr": "129B",
       "code": "12726",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:40-06:00"
     },
     {
       "id": 129,
       "fr": "130B",
       "code": "60100",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:40-06:00"
     },
     {
       "id": 130,
       "fr": "131B",
       "code": "60090",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:40-06:00"
     },
     {
       "id": 131,
       "fr": "132B",
       "code": "60094",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:41-06:00"
     },
     {
       "id": 132,
       "fr": "133B",
       "code": "60103",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:41-06:00"
     },
     {
       "id": 133,
       "fr": "134B",
       "code": "10727",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:41-06:00"
     },
     {
       "id": 134,
       "fr": "135B",
       "code": "86257",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:41-06:00"
     },
     {
       "id": 135,
       "fr": "136B",
       "code": "64116",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:41-06:00"
     },
     {
       "id": 136,
       "fr": "137B",
       "code": "64112",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:41-06:00"
     },
     {
       "id": 137,
       "fr": "138B",
       "code": "86426",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:42-06:00"
     },
     {
       "id": 138,
       "fr": "139B",
       "code": "86254",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:42-06:00"
     },
     {
       "id": 139,
       "fr": "140B",
       "code": "86314",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:42-06:00"
     },
     {
       "id": 140,
       "fr": "141B",
       "code": "80168",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:42-06:00"
     },
     {
       "id": 141,
       "fr": "142B",
       "code": "80149",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:42-06:00"
     },
     {
       "id": 142,
       "fr": "143B",
       "code": "10018",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:42-06:00"
     },
     {
       "id": 143,
       "fr": "144B",
       "code": "60165",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:43-06:00"
     },
     {
       "id": 144,
       "fr": "145B",
       "code": "64031",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:43-06:00"
     },
     {
       "id": 145,
       "fr": "146B",
       "code": "10605",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:43-06:00"
     },
     {
       "id": 146,
       "fr": "147B",
       "code": "64126",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:43-06:00"
     },
     {
       "id": 147,
       "fr": "148B",
       "code": "80139",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:43-06:00"
     },
     {
       "id": 148,
       "fr": "149B",
       "code": "80134",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:43-06:00"
     },
     {
       "id": 149,
       "fr": "150B",
       "code": "64087",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:43-06:00"
     },
     {
       "id": 150,
       "fr": "151B",
       "code": "86251",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:44-06:00"
     },
     {
       "id": 151,
       "fr": "152B",
       "code": "86286",
-      "status": "assigned"
+      "status": "dispatched",
+      "dispatchedAt": "2026-04-08T17:37:44-06:00"
     },
     {
       "id": 152,
@@ -1866,6 +1917,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T17:37:31-06:00",
+  "updatedAt": "2026-04-08T17:37:45-06:00",
   "total": 294
 }
