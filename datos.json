@@ -268,7 +268,7 @@
       "id": 44,
       "fr": "45B",
       "code": "12672",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 45,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:49:24.302Z",
+  "updatedAt": "2026-04-08T22:49:26.688Z",
   "total": 294
 }
