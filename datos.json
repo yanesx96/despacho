@@ -310,7 +310,7 @@
       "id": 51,
       "fr": "52B",
       "code": "86315",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 52,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:48:19.376Z",
+  "updatedAt": "2026-04-08T22:48:22.844Z",
   "total": 294
 }
