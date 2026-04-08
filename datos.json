@@ -1000,193 +1000,193 @@
       "id": 166,
       "fr": "167B",
       "code": "86498",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 167,
       "fr": "168B",
       "code": "14790",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 168,
       "fr": "169B",
       "code": "60254",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 169,
       "fr": "170B",
       "code": "80144",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 170,
       "fr": "171B",
       "code": "12698",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 171,
       "fr": "172B",
       "code": "78096",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 172,
       "fr": "173B",
       "code": "60181",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 173,
       "fr": "174B",
       "code": "80126",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 174,
       "fr": "175B",
       "code": "78024",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 175,
       "fr": "176B",
       "code": "78025",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 176,
       "fr": "177B",
       "code": "12670",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 177,
       "fr": "178B",
       "code": "60278",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 178,
       "fr": "179B",
       "code": "12662",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 179,
       "fr": "180B",
       "code": "80119",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 180,
       "fr": "181B",
       "code": "86318",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 181,
       "fr": "182B",
       "code": "12665",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 182,
       "fr": "183B",
       "code": "86317",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 183,
       "fr": "184B",
       "code": "80123",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 184,
       "fr": "185B",
       "code": "60181",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 185,
       "fr": "186B",
       "code": "80111",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 186,
       "fr": "187B",
       "code": "80115",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 187,
       "fr": "188B",
       "code": "80108",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 188,
       "fr": "189B",
       "code": "12660",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 189,
       "fr": "190B",
       "code": "66148",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 190,
       "fr": "191B",
       "code": "86400",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 191,
       "fr": "192B",
       "code": "80107",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 192,
       "fr": "193B",
       "code": "80104",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 193,
       "fr": "194B",
       "code": "80105",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 194,
       "fr": "195B",
       "code": "60182",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 195,
       "fr": "196B",
       "code": "80106",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 196,
       "fr": "197B",
       "code": "10427",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 197,
       "fr": "198B",
       "code": "86508",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 198,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:56:18.793Z",
+  "updatedAt": "2026-04-08T22:56:25.966Z",
   "total": 294
 }
