@@ -100,7 +100,7 @@
       "id": 16,
       "fr": "17B",
       "code": "64110",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 17,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:49:45.198Z",
+  "updatedAt": "2026-04-08T22:49:48.380Z",
   "total": 294
 }
