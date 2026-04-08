@@ -52,7 +52,7 @@
       "id": 8,
       "fr": "9B",
       "code": "10982",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 9,
@@ -358,7 +358,7 @@
       "id": 59,
       "fr": "60B",
       "code": "64058",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 60,
@@ -370,7 +370,7 @@
       "id": 61,
       "fr": "62B",
       "code": "12631",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 62,
@@ -382,7 +382,7 @@
       "id": 63,
       "fr": "64B",
       "code": "10115",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 64,
@@ -394,7 +394,7 @@
       "id": 65,
       "fr": "66B",
       "code": "80087",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 66,
@@ -406,7 +406,7 @@
       "id": 67,
       "fr": "68B",
       "code": "12620",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 68,
@@ -418,19 +418,19 @@
       "id": 69,
       "fr": "70B",
       "code": "10349",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 70,
       "fr": "71B",
       "code": "12275",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 71,
       "fr": "72B",
       "code": "12586",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 72,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:51:07.195Z",
+  "updatedAt": "2026-04-08T22:51:19.233Z",
   "total": 294
 }
