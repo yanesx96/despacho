@@ -304,7 +304,7 @@
       "id": 50,
       "fr": "51B",
       "code": "86509",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 51,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:49:09.436Z",
+  "updatedAt": "2026-04-08T22:49:12.007Z",
   "total": 294
 }
