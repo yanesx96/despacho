@@ -104,6 +104,7 @@
   .card-info { flex:1; min-width:0; }
   .card-fr { font-family:'Space Mono', monospace; font-size:9px; color:var(--muted); margin-bottom:4px; text-transform:uppercase; }
   .card-code { font-size:14px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .card-time { font-family:'Space Mono', monospace; font-size:9px; color:var(--c-disp); margin-top:5px; opacity:0.8; }
   
   .card-actions { display:flex; gap:4px; flex-shrink:0; }
   .card-btn { background:var(--surface); border:1px solid var(--border); color:var(--text); width:26px; height:26px; border-radius:4px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:12px; transition:background 0.2s; }
@@ -387,10 +388,19 @@ function parseFile(file){
       
       if(!frKey || !codeKey) return showToast('Faltan columnas FR y CODIGO');
       
-      const prev = {}; allItems.forEach(i => prev[i.code] = i.status);
+      // Preservar estado y timestamp anterior si existe
+      const prev = {}; allItems.forEach(i => prev[i.code] = i);
+      
       allItems = data.filter(r => r[frKey]!=='' && r[codeKey]!=='').map((r, i) => {
         const code = String(r[codeKey]).trim();
-        return { id: i, fr: String(r[frKey]).trim(), code, status: prev[code] || 'ready' };
+        const p = prev[code] || {};
+        return { 
+          id: i, 
+          fr: String(r[frKey]).trim(), 
+          code, 
+          status: p.status || 'ready',
+          dispatchedAt: p.dispatchedAt // Mantiene la fecha si ya la tenía
+        };
       });
       showBoard(true); render(); schedulePush(); showToast(`✓ Excel cargado`);
     } catch { showToast('Error al procesar archivo'); }
@@ -439,13 +449,21 @@ function renderCol(bodyId, items, status) {
     if(status === 'assigned') btns = `<button class="card-btn" onclick="moveItem(${item.id},'ready')">←</button><button class="card-btn" onclick="moveItem(${item.id},'dispatched')">→</button>`;
     if(status === 'dispatched') btns = `<button class="card-btn" onclick="moveItem(${item.id},'assigned')">←</button>`;
 
+    let timeStr = '';
+    if(status === 'dispatched' && item.dispatchedAt) {
+      const d = new Date(item.dispatchedAt);
+      if(!isNaN(d)) {
+        const dateFmt = d.toLocaleDateString('es-SV', {day:'2-digit', month:'2-digit'}) + ' ' + d.toLocaleTimeString('es-SV',{hour:'2-digit',minute:'2-digit'});
+        timeStr = `<div class="card-time">✓ ${dateFmt}</div>`;
+      }
+    }
+
     const div = document.createElement('div');
     div.className = `card card-${status}`; div.draggable = true;
-    div.innerHTML = `<div class="card-drag-hint">⋮⋮</div><div class="card-info"><div class="card-fr">FR · ${item.fr}</div><div class="card-code">${item.code}</div></div><div class="card-actions">${btns}</div>`;
+    div.innerHTML = `<div class="card-drag-hint">⋮⋮</div><div class="card-info"><div class="card-fr">FR · ${item.fr}</div><div class="card-code">${item.code}</div>${timeStr}</div><div class="card-actions">${btns}</div>`;
     
     div.addEventListener('dragstart', () => dragId = item.id);
     
-    // ZONA TÁCTIL (Solo en los puntitos)
     const hint = div.querySelector('.card-drag-hint');
     hint.addEventListener('touchstart', e => {
       const t = e.touches[0], rect = div.getBoundingClientRect();
@@ -486,7 +504,18 @@ function dropCard(e, s){ e.preventDefault(); if(dragId !== null) moveItem(dragId
 
 function moveItem(id, s){
   const item = allItems.find(i => i.id === id);
-  if(item && item.status !== s) { item.status = s; render(); schedulePush(); }
+  if(item && item.status !== s) { 
+    item.status = s; 
+    
+    // Logica de registro de tiempo
+    if(s === 'dispatched') {
+      item.dispatchedAt = new Date().toISOString();
+    } else {
+      delete item.dispatchedAt; // Borrar si se devuelve a preparado o asignado
+    }
+
+    render(); schedulePush(); 
+  }
 }
 
 function updateStats(){
@@ -499,14 +528,12 @@ function updateStats(){
   const pA = t ? Math.round((a/t)*100) : 0;
   const pD = t ? Math.round((d/t)*100) : 0;
 
-  // Actualizar top stats
   document.getElementById('statTotal').textContent = t; 
   document.getElementById('statReady').textContent = r;
   document.getElementById('statAssigned').textContent = a; 
   document.getElementById('statDisp').textContent = d;
   document.getElementById('statPct').textContent = pD + '%';
   
-  // Actualizar Leyenda del Donut
   document.getElementById('leg-v-ready').textContent = r;
   document.getElementById('leg-p-ready').textContent = pR + '%';
   document.getElementById('leg-v-assigned').textContent = a;
@@ -514,7 +541,6 @@ function updateStats(){
   document.getElementById('leg-v-disp').textContent = d;
   document.getElementById('leg-p-disp').textContent = pD + '%';
 
-  // Dibujar Donut
   const cvs = document.getElementById('donutCanvas'), ctx = cvs.getContext('2d');
   ctx.clearRect(0,0,cvs.width,cvs.height);
   if(t===0) return;
@@ -558,7 +584,6 @@ function check100() {
   if(t > 0 && allItems.filter(i=>i.status==='dispatched').length === t) document.getElementById('completionModal').classList.remove('hidden');
 }
 
-// Función para generar el nombre de archivo con formato fecha
 function getFileName() {
   const date = new Date();
   const d = String(date.getDate()).padStart(2, '0');
@@ -567,7 +592,6 @@ function getFileName() {
   return `despacho_fr_${d}_${m}_${y}.json`;
 }
 
-// Exportación Manual
 function exportJSON() {
   if(!allItems.length) { showToast('❌ No hay datos para exportar'); return; }
   const blob = new Blob([JSON.stringify({ date: new Date().toISOString(), items: allItems }, null, 2)], {type:'application/json'});
@@ -579,7 +603,6 @@ function exportJSON() {
   showToast('⬇ JSON exportado');
 }
 
-// Finalización y Limpieza al 100%
 function finishAndClear() {
   const blob = new Blob([JSON.stringify({ date: new Date().toISOString(), items: allItems }, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob); 
