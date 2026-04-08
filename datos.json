@@ -178,7 +178,7 @@
       "id": 29,
       "fr": "30B",
       "code": "14752",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 30,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:47:55.981Z",
+  "updatedAt": "2026-04-08T22:47:57.514Z",
   "total": 294
 }
