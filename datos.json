@@ -226,7 +226,7 @@
       "id": 37,
       "fr": "38B",
       "code": "10633",
-      "status": "assigned"
+      "status": "dispatched"
     },
     {
       "id": 38,
@@ -1765,6 +1765,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T22:47:23.368Z",
+  "updatedAt": "2026-04-08T22:47:26.009Z",
   "total": 294
 }
