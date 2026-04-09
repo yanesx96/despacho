@@ -1560,7 +1560,7 @@
       "id": 234,
       "fr": "235B",
       "code": "80055",
-      "status": "ready"
+      "status": "assigned"
     },
     {
       "id": 235,
@@ -1917,6 +1917,6 @@
       "status": "ready"
     }
   ],
-  "updatedAt": "2026-04-08T19:08:28-06:00",
+  "updatedAt": "2026-04-08T19:08:35-06:00",
   "total": 294
 }
